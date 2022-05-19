@@ -1,0 +1,9 @@
+{
+  "generator-teams": {
+    "promptValues": {
+      "developer": "Vizibit"
+    },
+    "libraryName": "teamsAddIn",
+    "generator-version": "3.5.0"
+  }
+}
