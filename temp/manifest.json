@@ -1,0 +1,52 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.11/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.11",
+  "id": "d6c97850-d1e0-11ec-94e8-81f469e87169",
+  "version": "0.0.1",
+  "packageName": "teamsaddin",
+  "developer": {
+    "name": "Vizibit",
+    "websiteUrl": "https://mdodevski-front.vizibit.eu",
+    "privacyUrl": "https://mdodevski-front.vizibit.eu/privacy.html",
+    "termsOfUseUrl": "https://mdodevski-front.vizibit.eu/tou.html"
+  },
+  "name": {
+    "short": "Teams Add In",
+    "full": "Teams Add In"
+  },
+  "description": {
+    "short": "TODO: add short description here",
+    "full": "TODO: add full description here"
+  },
+  "icons": {
+    "outline": "icon-outline.png",
+    "color": "icon-color.png"
+  },
+  "accentColor": "#D85028",
+  "configurableTabs": [
+    {
+      "configurationUrl": "https://mdodevski-front.vizibit.eu/teamsAddInTab/config.html?name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
+      "canUpdateConfiguration": true,
+      "scopes": [
+        "team"
+      ],
+      "sharePointPreviewImage": "https://mdodevski-front.vizibit.eu/assets/teamsAddInTab-preview.png",
+      "supportedSharePointHosts": [
+        "sharePointFullPage",
+        "sharePointWebPart"
+      ]
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": [
+    "mdodevski-front.vizibit.eu"
+  ],
+  "showLoadingIndicator": false,
+  "webApplicationInfo": {
+    "id": "bbb71de5-d64e-4ad1-9994-40d0ff295dbb",
+    "resource": "api://mdodevski-front.vizibit.eu/bbb71de5-d64e-4ad1-9994-40d0ff295dbb"
+  }
+}

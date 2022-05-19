@@ -1,0 +1,90 @@
+body {
+	font-family: sans-serif;
+
+	max-width: 80vw;
+	margin: 0 auto;
+}
+
+.l-header {
+	display: flex;
+
+	box-sizing: border-box;
+	width: 100%;
+	min-height: 5em;
+	padding: 1em;
+
+	align-content: space-between;
+	align-items: stretch;
+	justify-content: space-between;
+
+	h1 {
+		box-sizing: border-box;
+		padding-left: 1.5em;
+		padding-right: 1.5em;
+
+	}
+}
+
+.l-article {
+	margin: 3em 2em;
+}
+
+.l-title {
+	flex-grow: 1;
+}
+
+img.logo {
+	width: 100%;
+	min-width: 76px;
+	height: auto;
+}
+
+.tabContainer{
+	padding: 20px;
+}
+
+.filesContainer{
+	display: flex;
+	flex-direction: column;
+	justify-content: start;
+}
+
+.titleContainer{
+	display: flex;
+	justify-content: space-between;
+	border-bottom: 1px solid rgb(201, 201, 201);
+	align-items: center;
+}
+.filesTitle{
+	font-size: 25px;
+	 font-weight: bold;
+	 margin-right: 15px;
+}
+.fileItem{
+	display: flex;
+	align-items: center;
+	justify-content: start;
+	border-bottom: 1px solid rgb(201, 201, 201);
+	padding: 5px;
+	cursor: pointer;
+}
+.fileItem:hover{
+	background-color: #f5f5f5;
+}
+
+.fileName{
+	font-size: 20px;
+	font-weight: 600;
+	margin-right: 15px;
+	cursor: pointer;
+}
+
+.fileImage{
+	margin-right: 10px; 
+	cursor: pointer;
+}
+
+.fileChildren{
+	font-size: 16px;
+	font-weight: 500;
+}
