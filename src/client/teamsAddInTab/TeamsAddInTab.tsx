@@ -1,11 +1,11 @@
 import * as React from "react";
-import { Box, Button, Provider } from "@fluentui/react-northstar";
+import { Box, Button, Loader, Provider } from "@fluentui/react-northstar";
 import { useState, useEffect } from "react";
 import { useTeams } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
 import { HttpClient } from "../services/httpService";
 import validator from "validator";
-import { TextField, DefaultButton } from "office-ui-fabric-react";
+import { TextField } from "office-ui-fabric-react";
 import { SendFileToSignMultiple } from "../models/SendFileToSignMultiple";
 
 export const TeamsAddInTab = () => {
@@ -16,7 +16,7 @@ export const TeamsAddInTab = () => {
   const [prevLevel, setPrevLevel] = useState<any>();
   const [root, setRoot] = useState<any>();
   const [file, setFile] = useState<any>();
-  const [addressList, setAddress] = useState<any>([{ Email: "" }]);
+  const [addressList, setAddressList] = useState<any>([{ Email: "" }]);
 
   const httpClient = new HttpClient();
 
@@ -24,22 +24,22 @@ export const TeamsAddInTab = () => {
   const handleInputChange = (e, index) => {
     const { name, value } = e.target;
     const list = [...addressList];
-    list[index][name] = value;
-    setAddress(list);
+    list[index][name] = value.toLowerCase();
+    setAddressList(list);
   };
 
   const handleRemoveClick = (index) => {
     const list = [...addressList];
     list.splice(index, 1);
-    setAddress(list);
+    setAddressList(list);
   };
 
   // handle click event of the Add button
   const handleAddClick = () => {
-    setAddress([...addressList, { Email: "" }]);
+    setAddressList([...addressList, { Email: "" }]);
   };
 
-  const [emailsValid, setEmailValidation] = useState<boolean>();
+  const [emailsValid, setEmailValidation] = useState<any>(null);
 
   const validateEmail = (e, index) => {
     handleInputChange(e, index);
@@ -50,8 +50,6 @@ export const TeamsAddInTab = () => {
       }
     });
   };
-
-  useEffect(() => {}, []);
 
   const setResult = (res: any) => {
     httpClient.GetUser(res).then((res2) => setUser(res2));
@@ -83,11 +81,13 @@ export const TeamsAddInTab = () => {
       DriveId: res.params.driveId,
       ItemId: res.params.id,
       Name: res.params.name,
+      FileType: res.params.fileType,
     };
 
     if (res.params.type == "File") {
       httpClient.GetFileContent(request).then((res2) => {
         setFile(res2);
+        console.log(res2)
       });
     } else if (res.params.type == "Folder") {
       if (res.params.childCount <= 0) {
@@ -130,9 +130,20 @@ export const TeamsAddInTab = () => {
     }
 
     httpClient.SendFileToSign(data).then((responseData) => {
+
+      console.log(data);
       console.log(responseData);
-      if (data.Signers[0].Email === data.Initiator.Email) {
-        window.open(responseData.url, "_blank");
+      if (responseData == null || responseData == undefined) {
+        setLevel(prevLevel);
+        setFile(null);
+      } else {
+        if (data.Signers[0].Email === data.Initiator.Email) {
+          window.open(responseData.Url, "_blank");
+        } else {
+          alert("Success!");
+          setFile(null);
+          setAddressList([{ Email: "" }]);
+        }
       }
     });
   }
@@ -140,7 +151,6 @@ export const TeamsAddInTab = () => {
   useEffect(() => {
     if (inTeams === true) {
       microsoftTeams.getContext((context) => {});
-
       httpClient.GetAuthToken(setResult);
 
       microsoftTeams.appInitialization.notifySuccess();
@@ -160,7 +170,7 @@ export const TeamsAddInTab = () => {
    */
   return (
     <Provider theme={theme}>
-      {!file && (
+      {!file &&(
         <div className="filesContainer">
           {root && (
             <div className="titleContainer">
@@ -178,9 +188,17 @@ export const TeamsAddInTab = () => {
                   <img
                     className="fileImage"
                     src={
-                      item.type == "File"
+                      item.fileType == "pdf"
                         ? "https://mdodevski-front.vizibit.eu/assets/pdf.png"
-                        : "https://mdodevski-front.vizibit.eu/assets/folder.png"
+                        : item.fileType == "docx" || item.fileType == "doc"
+                        ? "https://mdodevski-front.vizibit.eu/assets/doc.png"
+                        : item.fileType == "ppt" || item.fileType == "odp"
+                        ? "https://mdodevski-front.vizibit.eu/assets/ppt.png"
+                        : item.fileType == "xls"
+                        ? "https://mdodevski-front.vizibit.eu/assets/xls.png"
+                        : item.type == "Folder"
+                        ? "https://mdodevski-front.vizibit.eu/assets/folder.png"
+                        : "https://mdodevski-front.vizibit.eu/assets/file.png"
                     }
                     alt="item_type"
                   />{" "}
@@ -193,17 +211,27 @@ export const TeamsAddInTab = () => {
                 </div>
               );
             })}
-          {!level && <div>spinner lol</div>}
+          {!level && <Loader></Loader>}
         </div>
       )}
       {file && (
         <div>
-          <div className="fileItem">
+          <div className="titleItem">
             <span className="filesTitle">Chosen file:</span>
             <img
               className="fileImage"
-              src="https://mdodevski-front.vizibit.eu/assets/pdf.png"
-              alt="item"
+              src={
+                file.fileType == "pdf"
+                  ? "https://mdodevski-front.vizibit.eu/assets/pdf.png"
+                  : file.fileType == "docx" || file.fileType == "doc"
+                  ? "https://mdodevski-front.vizibit.eu/assets/doc.png"
+                  : file.fileType == "ppt" || file.fileType == "odp"
+                  ? "https://mdodevski-front.vizibit.eu/assets/ppt.png"
+                  : file.fileType == "xls"
+                  ? "https://mdodevski-front.vizibit.eu/assets/xls.png"
+                  : "https://mdodevski-front.vizibit.eu/assets/file.png"
+              }
+              alt="item_type"
             />{" "}
             <span className="fileName">{file.name}</span>
             {
@@ -217,12 +245,13 @@ export const TeamsAddInTab = () => {
             }
           </div>
 
-          <div>
+          <div className="signContainer">
             <span className="filesTitle">Sign it yourself</span>
             <Button onClick={() => prepareFileForSending(true)}>Sign</Button>
           </div>
 
-          <div>
+          <div className="sendContainer">
+            <span className="filesTitle">Send the file to be signed</span>
             {addressList.map((x, i) => {
               return (
                 <div className="box">
@@ -237,7 +266,10 @@ export const TeamsAddInTab = () => {
 
                   <div className="btn-box">
                     {addressList.length !== 1 && (
-                      <Button onClick={() => handleRemoveClick(i)}>
+                      <Button
+                        className="removeButton"
+                        onClick={() => handleRemoveClick(i)}
+                      >
                         Remove
                       </Button>
                     )}
@@ -248,9 +280,19 @@ export const TeamsAddInTab = () => {
                 </div>
               );
             })}
+            <div className="buttonContainer">
+              <Button
+                disabled={!emailsValid}
+                className="sendButton"
+                onClick={() => prepareFileForSending(false)}
+              >
+                Send
+              </Button>
+            </div>
+            {!emailsValid && emailsValid != null && (
+              <span className="errorTitle">Invalid email address!</span>
+            )}
           </div>
-
-          <Button onClick={() => prepareFileForSending(false)}>Send</Button>
         </div>
       )}
     </Provider>

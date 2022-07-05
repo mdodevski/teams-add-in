@@ -1,7 +1,6 @@
 // Copyright (c) Wictor Wilén. All rights reserved. 
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
-
 const gulp = require("gulp");
 const package = require("./package.json");
 const argv = require("yargs").argv;

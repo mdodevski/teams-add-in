@@ -4,13 +4,13 @@ import { SendFileToSignMultiple } from "../models/SendFileToSignMultiple";
 
 export class HttpClient {
   baseUrlMyApi = "https://mdodevski.vizibit.eu";
-  baseUrlSignumId = "https://test.signumid.hr";
+  baseUrlSignumId = "https://eSign-lite-demo.signator.eu";
   baseUrlGraphApi = "https://graph.microsoft.com/v1.0";
   baseUrlMicrosoftOnline = "https://login.microsoftonline.com";
 
   async GetUser(request: any) {
     const res = await axios.post<any, AxiosResponse<any>>(
-      this.baseUrlMyApi + "/v/1/signumid_integrations/get_user",
+      this.baseUrlMyApi + "/v/1/signumid_integrations/user",
       request
     );
     return res.data;
@@ -18,7 +18,7 @@ export class HttpClient {
 
   async GetChannelRootDirectory(request: any) {
     const res = await axios.post<any, AxiosResponse<any>>(
-      this.baseUrlMyApi + "/v/1/signumid_integrations/get_channel_root_folder",
+      this.baseUrlMyApi + "/v/1/signumid_integrations/channel_root_folder",
       request
     );
     return res.data;
@@ -26,7 +26,8 @@ export class HttpClient {
 
   async GetChannelFolderChildren(request: any) {
     const res = await axios.post<any, AxiosResponse<any>>(
-      this.baseUrlMyApi + "/v/1/signumid_integrations/get_channel_folder_children",
+      this.baseUrlMyApi +
+        "/v/1/signumid_integrations/channel_folder_children",
       request
     );
     return res.data;
@@ -34,25 +35,24 @@ export class HttpClient {
 
   async GetFileContent(request: any) {
     const res = await axios.post<any, AxiosResponse<any>>(
-      this.baseUrlMyApi + "/v/1/signumid_integrations/get_file_content",
+      this.baseUrlMyApi + "/v/1/signumid_integrations/file_content",
       request
     );
     return res.data;
   }
 
   async GetAuthToken(fn: Function, params?: any) {
-
     microsoftTeams.authentication.getAuthToken({
       successCallback: (result): void => {
         fn({
-          client_id: "bbb71de5-d64e-4ad1-9994-40d0ff295dbb",
-          client_secret: "2nR8Q~gfQhgQRyLvTMkO0XeWFisbdnCA.w4UTaly",
+          client_id: "38e5f500-cedf-415c-a164-f12dc6da403a",
+          client_secret: "c~y8Q~2m_2C5Xzpv8RVKD8S5Ro0cn0IBaU.uCaTO",
           scope:
             "user.read email openid profile Files.Read.All Files.ReadWrite.All Group.Read.All Group.ReadWrite.All offline_access",
           grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
           requested_token_use: "on_behalf_of",
           assertion: result,
-          params
+          params,
         });
       },
       failureCallback(error) {
@@ -62,9 +62,15 @@ export class HttpClient {
   }
 
   async SendFileToSign(request: SendFileToSignMultiple) {
-    console.log(request);
-    const res = await axios
-      .post<SendFileToSignMultiple, AxiosResponse<any>>(this.baseUrlSignumId + "/v/1/signature/workflow/pdf/sequential", request);
-    return res.data;
+    try {
+      const res = await axios.post<SendFileToSignMultiple, AxiosResponse<any>>(
+        this.baseUrlSignumId + "/v/1/signature/workflow/pdf/sequential",
+        request
+      );
+
+      return res.data;
+    } catch {
+      alert("File cannot be signed!");
+    }
   }
 }

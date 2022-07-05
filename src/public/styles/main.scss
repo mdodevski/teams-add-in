@@ -47,6 +47,26 @@ img.logo {
 	display: flex;
 	flex-direction: column;
 	justify-content: start;
+	border-right: 1px solid rgb(201, 201, 201);
+	// padding: 10px;
+}
+.signContainer{
+	display: flex;
+	align-items: center;
+	justify-content: start;
+	border-bottom: 1px solid rgb(201, 201, 201);
+	padding: 10px;
+	border-right: 1px solid rgb(201, 201, 201);
+
+}
+.sendContainer{
+	display: flex;
+	border-right: 1px solid rgb(201, 201, 201);
+
+	justify-content: start;
+	flex-direction: column;
+	border-bottom: 1px solid rgb(201, 201, 201);
+	padding: 10px;
 }
 
 .titleContainer{
@@ -54,24 +74,48 @@ img.logo {
 	justify-content: space-between;
 	border-bottom: 1px solid rgb(201, 201, 201);
 	align-items: center;
+	padding: 10px;
+
 }
 .filesTitle{
 	font-size: 25px;
 	 font-weight: bold;
 	 margin-right: 15px;
 }
+.errorTitle{
+	font-size: 15px;
+	font-weight: bold;
+	color: red;
+}
 .fileItem{
 	display: flex;
 	align-items: center;
 	justify-content: start;
 	border-bottom: 1px solid rgb(201, 201, 201);
-	padding: 5px;
+	padding: 10px;
 	cursor: pointer;
 }
 .fileItem:hover{
 	background-color: #f5f5f5;
 }
+.titleItem{
+	display: flex;
+	align-items: center;
+	justify-content: start;
+	border-bottom: 1px solid rgb(201, 201, 201);
+	padding: 10px;
+	border-right: 1px solid rgb(201, 201, 201);
 
+}
+.removeButton{
+	margin-right: 5px;
+}
+.fieldGroup-38{
+	border-radius: 4px!important;
+	border: 1px solid rgb(225, 223, 221)!important;
+	margin-bottom: 3px;
+	box-shadow: rgb(0 0 0 / 10%) 0px 0.2rem 0.4rem -0.075rem;
+}
 .fileName{
 	font-size: 20px;
 	font-weight: 600;
@@ -87,4 +131,18 @@ img.logo {
 .fileChildren{
 	font-size: 16px;
 	font-weight: 500;
+}
+.sendButton{
+	width: 197px;
+	text-align: center;
+}
+.buttonContainer{
+	width: 100%;
+	display: flex;
+	justify-content: start;
+	align-items: center;
+	padding: 20px 0 8px 0; 
+}
+.textBox{
+	width: 400px;
 }

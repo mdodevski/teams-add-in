@@ -14,7 +14,7 @@ export const TeamsAddInTabConfig = () => {
     const entityId = useRef("");
 
     const onSaveHandler = (saveEvent: microsoftTeams.settings.SaveEvent) => {
-        const host = "https://" + window.location.host;
+        const host = "https://" + window.location.host
         microsoftTeams.settings.setSettings({
             contentUrl: host + "/teamsAddInTab/?name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
             websiteUrl: host + "/teamsAddInTab/?name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
